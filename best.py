@@ -4,9 +4,12 @@ from flask import Flask
 from telethon import TelegramClient
 from threading import Thread
 
-api_id = 123456
+api_id = 
 api_hash = "your_api_hash"
+import os
 
+api_id = int(os.environ.get("api_id"))
+api_hash = os.environ.get("api_hash")
 client = TelegramClient("session", api_id, api_hash)
 
 app = Flask(__name__)
