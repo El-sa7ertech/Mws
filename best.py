@@ -15,14 +15,14 @@ PAGE_ACCESS_TOKEN = "PUT_YOUR_TOKEN_HERE"
 # ======================
 # Telegram Settings
 # ======================
-api_id = 123456
-api_hash = "your_api_hash"
+API_ID = 123456
+API_HASH = "your_API_HASH"
 bot_username = "mysudan1bot"
 
 tg_loop = asyncio.new_event_loop()
 asyncio.set_event_loop(tg_loop)
 
-client = TelegramClient("session", api_id, api_hash, loop=tg_loop)
+client = TelegramClient("session", API_ID, API_HASH, loop=tg_loop)
 
 # ======================
 # State
@@ -31,7 +31,14 @@ last_message = None
 current_buttons = []
 last_psid = None
 user_mode = {}
-
+import os
+"""
+VERIFY_TOKEN = os.environ.get("VERIFY_TOKEN")
+PAGE_ACCESS_TOKEN = os.environ.get("PAGE_ACCESS_TOKEN")
+API_ID = int(os.environ.get("API_ID"))
+API_HASH = os.environ.get("API_HASH")
+bot_username = os.environ.get("BOT_USERNAME")
+"""
 # ======================
 # Facebook Send
 # ======================
@@ -114,9 +121,7 @@ async def press_button(index):
 # Flask App
 # ======================
 app = Flask(__name__)
-@app.route("/")
-def home():
-    return "Bot is running ✅"
+
 @app.route("/webhook", methods=["GET"])
 def verify():
     if request.args.get("hub.verify_token") == VERIFY_TOKEN:
