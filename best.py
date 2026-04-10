@@ -32,13 +32,13 @@ current_buttons = []
 last_psid = None
 user_mode = {}
 import os
-"""
+
 VERIFY_TOKEN = os.environ.get("VERIFY_TOKEN")
 PAGE_ACCESS_TOKEN = os.environ.get("PAGE_ACCESS_TOKEN")
 API_ID = int(os.environ.get("API_ID"))
 API_HASH = os.environ.get("API_HASH")
 bot_username = os.environ.get("BOT_USERNAME")
-"""
+
 # ======================
 # Facebook Send
 # ======================
