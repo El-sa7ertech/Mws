@@ -8,7 +8,7 @@ print("9")
 
 # ✅ إصلاح env (Case Sensitive)
 api_id = int(os.environ.get("api_id"))
-api_hash = os.environ.get("api_id")
+api_hash = os.environ.get("api_hash")
 
 print(api_id, api_hash)
 
