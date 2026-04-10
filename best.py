@@ -6,9 +6,9 @@ from telethon import TelegramClient
 # ======================
 # إعداد Telegram
 # ======================
-api_id = 123456          # حط api_id
-api_hash = "your_api_hash"  # حط api_hash
-bot_username = "mysudan1bot"  # يوزر البوت
+api_id = 123456
+api_hash = "your_api_hash"
+bot_username = "mysudan1bot"
 
 client = TelegramClient("session", api_id, api_hash)
 
@@ -25,15 +25,12 @@ def home():
 # تشغيل Telegram
 # ======================
 async def start_bot():
-"""  await client.start()
+    await client.start()
     print("✅ Telegram Connected", flush=True)
 
-    # إرسال رسالة تجريبية عند التشغيل
-    await client.send_message(bot_username, "🚀 Bot is now online!")
-"""
-await client.start()
     user = "Aminabdalbdea"
     msg = "اشتغل"
+
     await client.send_message(user, msg)
     print("تم إرسال الرسالة!")
 
