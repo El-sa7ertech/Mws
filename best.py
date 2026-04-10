@@ -22,7 +22,8 @@ def home():
 # ======================
 async def start_bot():
     print("🚀 start_bot called", flush=True)
-
+   print("🔥 Thread started")
+ 
     await client.start()
     print("✅ Telegram Connected", flush=True)
 
