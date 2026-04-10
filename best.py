@@ -7,8 +7,8 @@ from threading import Thread
 print("9")
 
 # ✅ إصلاح env (Case Sensitive)
-api_id = int(os.environ.get("API_ID"))
-api_hash = os.environ.get("API_HASH")
+api_id = int(os.environ.get("api_id"))
+api_hash = os.environ.get("api_id")
 
 print(api_id, api_hash)
 
