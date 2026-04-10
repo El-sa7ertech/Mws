@@ -114,7 +114,9 @@ async def press_button(index):
 # Flask App
 # ======================
 app = Flask(__name__)
-
+@app.route("/")
+def home():
+    return "Bot is running ✅"
 @app.route("/webhook", methods=["GET"])
 def verify():
     if request.args.get("hub.verify_token") == VERIFY_TOKEN:
