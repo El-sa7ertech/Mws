@@ -15,8 +15,6 @@ PAGE_ACCESS_TOKEN = "PUT_YOUR_TOKEN_HERE"
 # ======================
 # Telegram Settings
 # ======================
-API_ID = 123456
-API_HASH = "your_API_HASH"
 bot_username = "mysudan1bot"
 
 tg_loop = asyncio.new_event_loop()
