@@ -4,16 +4,15 @@ from flask import Flask
 from telethon import TelegramClient
 from threading import Thread
 
-api_id = 
-api_hash = "your_api_hash"
-import os
 
+import os
+print("9")
 api_id = int(os.environ.get("api_id"))
 api_hash = os.environ.get("api_hash")
 client = TelegramClient("session", api_id, api_hash)
-
+print("13")
 app = Flask(__name__)
-
+print(15)
 @app.route("/")
 def home():
     return "Bot is running ✅"
