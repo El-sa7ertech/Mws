@@ -4,48 +4,46 @@ from flask import Flask
 from telethon import TelegramClient
 from threading import Thread
 
-# ======================
-# Telegram
-# ======================
 api_id = 123456
 api_hash = "your_api_hash"
-bot_username = "mysudan1bot"
 
 client = TelegramClient("session", api_id, api_hash)
 
-# ======================
-# Flask
-# ======================
 app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "Telegram Bot Running ✅"
+    return "Bot is running ✅"
 
 # ======================
-# Telegram Task
+# Telegram
 # ======================
 async def start_bot():
+    print("🚀 start_bot called", flush=True)
+
     await client.start()
     print("✅ Telegram Connected", flush=True)
 
-    user = "Aminabdalbdea"
-    msg = "اشتغل"
+    await client.send_message("me", "Bot started 🚀")
 
-    await client.send_message(user, msg)
-    print("تم إرسال الرسالة!", flush=True)
+    await client.run_until_disconnected()
 
-# تشغيل asyncio في Thread
 def run_telegram():
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    loop.run_until_complete(start_bot())
+    print("🔥 Thread started", flush=True)
+    try:
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        loop.run_until_complete(start_bot())
+    except Exception as e:
+        print("❌ ERROR:", e, flush=True)
 
 # ======================
-# تشغيل السيرفر
+# MAIN
 # ======================
 if __name__ == "__main__":
     Thread(target=run_telegram).start()
 
-    PORT = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=PORT)
+    print("🌐 Flask starting...", flush=True)
+
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
