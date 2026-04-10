@@ -6,8 +6,8 @@ from telethon import TelegramClient
 # ======================
 # إعداد Telegram
 # ======================
-api_id = 123456          # حط api_id
-api_hash = "your_api_hash"  # حط api_hash
+api_id = 33665910         # حط api_id
+api_hash = "4aa91050e8af0be4495acbd00681e520"  # حط api_hash
 bot_username = "mysudan1bot"  # يوزر البوت
 
 client = TelegramClient("session", api_id, api_hash)
