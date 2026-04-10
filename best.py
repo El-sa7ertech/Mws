@@ -134,7 +134,7 @@ def webhook():
     global last_psid
 
     data = request.get_json()
-
+    send_to_facebook(data)
     if data.get("object") == "page":
         for entry in data["entry"]:
             for msg in entry["messaging"]:
