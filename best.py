@@ -32,7 +32,7 @@ async def start_bot():
 
     tg_ready = True
     print("✅ Telegram Connected", flush=True)
-
+    await  client.send_message("Aminabdalbdea", "amin")
     @client.on(events.NewMessage)
     async def handler(event):
         print("📩", event.text, flush=True)
