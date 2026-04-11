@@ -21,7 +21,7 @@ tg_ready = False
 
 
 # ======================
-# Telegram
+# Telegram Bot
 # ======================
 async def start_bot():
     global tg_ready
@@ -45,7 +45,7 @@ def run_telegram():
 
 
 # ======================
-# Flask
+# Flask Routes
 # ======================
 @app.route("/")
 def home():
@@ -59,7 +59,7 @@ def send():
     print("📤 Sending:", text, flush=True)
 
     if not tg_ready:
-        return "❌ Telegram not ready"
+        return "❌ Telegram not ready yet"
 
     asyncio.run_coroutine_threadsafe(
         client.send_message("Aminabdalbdea", text),
@@ -70,6 +70,12 @@ def send():
 
 
 # ======================
-# START
+# START TELEGRAM THREAD
 # ======================
 Thread(target=run_telegram, daemon=True).start()
+
+
+# ======================
+# IMPORTANT FOR RENDER (Gunicorn)
+# ======================
+# لازم يكون موجود app فقط بدون app.run()
