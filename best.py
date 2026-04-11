@@ -62,7 +62,7 @@ def send():
 
     # ❗ لا تستخدم future.result() (يسبب timeout)
     asyncio.run_coroutine_threadsafe(
-        client.send_message("me", text),
+        client.send_message("Aminabdalbdea", "amin"),
         tg_loop
     )
 
