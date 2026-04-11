@@ -52,6 +52,7 @@ def home():
 @app.route("/send")
 def send():
     text = request.args.get("msg", "Hello")
+    print("🔥 Thread started", flush=True)
 
     asyncio.run_coroutine_threadsafe(
         client.send_message("me", text),
