@@ -1,1 +1,37 @@
-print("Hello World")
+import asyncio
+import os
+from telethon import TelegramClient
+
+api_id = int(os.environ.get("api_id"))
+api_hash = os.environ.get("api_hash")
+
+client = TelegramClient("session", api_id, api_hash)
+
+async def main():
+    print("🚀 Telegram starting...")
+
+    await client.start()
+    print("✅ Telegram Connected")
+
+    await client.send_message("me", "Bot started 🚀")
+
+    await client.run_until_disconnected()
+
+asyncio.run(main())
+client = TelegramClient("session", api_id, api_hash)
+
+@client.on(events.NewMessage)
+async def handler(event):
+    print("📩 رسالة:", event.text)
+
+    # رد بسيط
+    if event.text == "hi":
+        await event.reply("Hello 👋")
+
+async def main():
+    await client.start()
+    print("✅ Bot is running...")
+
+    await client.run_until_disconnected()
+
+asyncio.run(main())
