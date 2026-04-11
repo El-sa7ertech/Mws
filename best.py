@@ -1,60 +1,68 @@
-import os
 import asyncio
-from flask import Flask
-from telethon import TelegramClient
+from flask import Flask, request
+from telethon import TelegramClient, events
 from threading import Thread
+import os
 
 print("9")
 
-# ✅ إصلاح env (Case Sensitive)
-api_id = int(os.environ.get("api_id"))
-api_hash = os.environ.get("api_hash")
+api_id = 123456
+api_hash = "12345amdidhdhsjs"
+api_id = int(os.environ.get("API_ID"))
+api_hash = os.environ.get("API_HASH")
+
+client = TelegramClient("session", api_id, api_hash)
 
 print(api_id, api_hash)
 
 app = Flask(__name__)
+
 print(15)
 
-@app.route("/")
-def home():
-    return "Bot is running ✅"
+# ======================
+# Telegram loop
+# ======================
+tg_loop = asyncio.new_event_loop()
 
-# ======================
-# Telegram
-# ======================
+async def start_bot():
+    print("🚀 start_bot called", flush=True)
+
+    await client.start()
+    print("✅ Telegram Connected", flush=True)
+
+    @client.on(events.NewMessage)
+    async def handler(event):
+        print("📩", event.text, flush=True)
+
+    await client.run_until_disconnected()
 
 def run_telegram():
     print("🔥 Thread started", flush=True)
 
-    try:
-        # ✅ إنشاء loop داخل thread
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
+    asyncio.set_event_loop(tg_loop)
+    tg_loop.run_until_complete(start_bot())
 
-        # ✅ إنشاء client داخل thread (مهم جدًا)
-        client = TelegramClient("session", api_id, api_hash)
+# ======================
+# Flask
+# ======================
+@app.route("/")
+def home():
+    return "Bot is running ✅"
 
-        async def start_bot():
-            print("🚀 start_bot called", flush=True)
-            print("🔥 Thread started")
+@app.route("/send")
+def send():
+    text = request.args.get("msg", "Hello")
 
-            await client.start()
-            print("✅ Telegram Connected", flush=True)
+    asyncio.run_coroutine_threadsafe(
+        client.send_message("me", text),
+        tg_loop
+    )
 
-            await client.send_message("me", "Bot started 🚀")
-
-            # ✅ مهم حتى لا يتوقف
-            await client.run_until_disconnected()
-
-        loop.run_until_complete(start_bot())
-
-    except Exception as e:
-        print("❌ ERROR:", e, flush=True)
+    return "Sent"
 
 # ======================
 # MAIN
 # ======================
-
 if __name__ == "__main__":
     Thread(target=run_telegram, daemon=True).start()
 
