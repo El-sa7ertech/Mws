@@ -12,21 +12,25 @@ api_hash = os.environ.get("API_HASH")
 
 print(api_id, api_hash)
 
-# ===== Telegram =====
-tg_loop = asyncio.new_event_loop()
-client = TelegramClient("session", api_id, api_hash)
-
+# ===== Flask =====
 app = Flask(__name__)
 
-print(15)
+# ===== Telegram =====
+client = TelegramClient("session", api_id, api_hash)
+tg_ready = False
+
 
 # ======================
-# Telegram loop
+# Telegram
 # ======================
 async def start_bot():
+    global tg_ready
+
     print("🚀 start_bot called", flush=True)
 
     await client.start()
+
+    tg_ready = True
     print("✅ Telegram Connected", flush=True)
 
     @client.on(events.NewMessage)
@@ -37,10 +41,7 @@ async def start_bot():
 
 
 def run_telegram():
-    print("🔥 Thread started", flush=True)
-
-    asyncio.set_event_loop(tg_loop)
-    tg_loop.run_until_complete(start_bot())
+    asyncio.run(start_bot())
 
 
 # ======================
@@ -57,20 +58,18 @@ def send():
 
     print("📤 Sending:", text, flush=True)
 
-    if not client.is_connected():
-        return "❌ Telegram not connected"
+    if not tg_ready:
+        return "❌ Telegram not ready"
 
-    # ❗ لا تستخدم future.result() (يسبب timeout)
     asyncio.run_coroutine_threadsafe(
-        client.send_message("Aminabdalbdea", "amin"),
-        tg_loop
+        client.send_message("Aminabdalbdea", text),
+        client.loop
     )
 
     return "✅ Sent"
 
 
 # ======================
-# MAIN
+# START
 # ======================
-# ❗ مهم جداً: يعمل مع gunicorn
 Thread(target=run_telegram, daemon=True).start()
