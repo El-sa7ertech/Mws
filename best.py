@@ -4,32 +4,31 @@ from telethon import TelegramClient, events
 from threading import Thread
 import os
 
-print("9")
+print("🚀 Starting...")
 
-api_id = 123456
-api_hash = "12345amdidhdhsjs"
-api_id = int(os.environ.get("api_id"))
-api_hash = os.environ.get("api_hash")
+# ======================
+# Environment variables
+# ======================
+api_id = int(os.environ.get("API_ID"))
+api_hash = os.environ.get("API_HASH")
 
+print("API:", api_id, api_hash)
+
+# ======================
+# Telegram
+# ======================
 client = TelegramClient("session", api_id, api_hash)
 
-print(api_id, api_hash)
-
-app = Flask(__name__)
-
-print(15)
-
-# ======================
-# Telegram loop
-# ======================
+# loop خاص بالـ Telegram
 tg_loop = asyncio.new_event_loop()
 
 async def start_bot():
-    print("🚀 start_bot called", flush=True)
+    print("🤖 Telegram starting...", flush=True)
 
     await client.start()
     print("✅ Telegram Connected", flush=True)
 
+    # استقبال الرسائل
     @client.on(events.NewMessage)
     async def handler(event):
         print("📩", event.text, flush=True)
@@ -45,29 +44,32 @@ def run_telegram():
 # ======================
 # Flask
 # ======================
+app = Flask(__name__)
+
 @app.route("/")
 def home():
     return "Bot is running ✅"
 
+# إرسال رسالة من المتصفح
 @app.route("/send")
 def send():
     text = request.args.get("msg", "Hello")
-    print("🔥 sent", flush=True)
 
-    asyncio.run_coroutine_threadsafe(
+    print("📤 Sending:", text, flush=True)
+
+    future = asyncio.run_coroutine_threadsafe(
         client.send_message("me", text),
         tg_loop
     )
 
-    return "Sent"
+    try:
+        future.result()  # مهم عشان ينفذ فعلياً
+    except Exception as e:
+        print("❌ ERROR:", e, flush=True)
+
+    return "Sent ✅"
 
 # ======================
-# MAIN
+# تشغيل Telegram مباشرة (مهم!)
 # ======================
-if __name__ == "__main__":
-    Thread(target=run_telegram, daemon=True).start()
-
-    print("🌐 Flask starting...", flush=True)
-
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=port)
+Thread(target=run_telegram, daemon=True).start()
