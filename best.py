@@ -8,8 +8,8 @@ print("9")
 
 api_id = 123456
 api_hash = "12345amdidhdhsjs"
-api_id = int(os.environ.get("API_ID"))
-api_hash = os.environ.get("API_HASH")
+api_id = int(os.environ.get("api_id"))
+api_hash = os.environ.get("api_hash")
 
 client = TelegramClient("session", api_id, api_hash)
 
