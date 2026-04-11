@@ -2,19 +2,22 @@ import asyncio
 import os
 from telethon import TelegramClient
 
-api_id = int(os.environ.get("api_id"))
-api_hash = os.environ.get("api_hash")
+api_id = int(os.environ["api_id"])
+api_hash = os.environ["api_hash"]
 
 client = TelegramClient("session", api_id, api_hash)
 
 async def main():
-    print("🚀 Telegram starting...")
-
     await client.start()
-    print("✅ Telegram Connected")
 
-    await client.send_message("me", "Bot started 🚀")
+    user = "aminabdalbdea"
+    msg = "اشتغل من Render 🚀"
 
-    await client.run_until_disconnected()
+    await client.send_message(user, msg)
 
-asyncio.run(main())
+    print("تم إرسال الرسالة!")
+
+    await client.disconnect()
+
+if __name__ == "__main__":
+    asyncio.run(main())
